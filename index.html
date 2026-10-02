@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário Simples</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; margin-top: 50px; }
+        .card { width: 300px; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background: #fafafa; }
+        input { width: 100%; padding: 8px; margin: 10px 0; box-sizing: border-box; }
+        input.erro { border: 2px solid red; background-color: #ffe6e6; }
+        button { width: 100%; padding: 8px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        #feedback { margin-top: 10px; padding: 8px; display: none; text-align: center; }
+        .sucesso { background: #d4edda; color: #155724; }
+        .alerta-erro { background: #f8d7da; color: #721c24; }
+        ul { padding-left: 20px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h3>Cadastro de Nomes</h3>
+        <form id="meuFormulario">
+            <input type="text" id="nome" placeholder="Digite seu nome">
+            <button type="submit">Adicionar Nome</button>
+        </form>
+        
+        <div id="feedback"></div>
+
+        <h4>Nomes Anexados:</h4>
+        <ul id="listaNomes"></ul>
+    </div>
+
+    <script>
+        const form = document.querySelector("#meuFormulario");
+        const input = document.querySelector("#nome");
+        const feedback = document.querySelector("#feedback");
+        const lista = document.querySelector("#listaNomes");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const valor = input.value.trim();
+
+            if (valor === "") {
+                input.classList.add("erro");
+                feedback.textContent = "Preencha o campo!";
+                feedback.className = "alerta-erro";
+                feedback.style.display = "block";
+            } else {
+                input.classList.remove("erro");
+                
+                // Adiciona o nome na lista dinamicamente
+                const li = document.createElement("li");
+                li.textContent = valor;
+                lista.appendChild(li);
+
+                feedback.textContent = "Nome adicionado!";
+                feedback.className = "sucesso";
+                feedback.style.display = "block";
+
+                // Temporizador para sumir com o feedback e limpar o form
+                setTimeout(() => {
+                    feedback.style.display = "none";
+                    form.reset();
+                }, 3000);
+            }
+        });
+    </script>
+
+</body>
+</html>
